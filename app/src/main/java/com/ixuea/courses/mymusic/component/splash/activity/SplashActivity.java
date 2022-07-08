@@ -1,6 +1,7 @@
 package com.ixuea.courses.mymusic.component.splash.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
  */
 public class SplashActivity extends BaseLogicActivity {
 
+    private static final String TAG = "SplashActivity";
     private TextView copyroghtView;
 
     @Override
@@ -48,7 +50,7 @@ public class SplashActivity extends BaseLogicActivity {
         int year = SuperDateUtil.currentYear();
 
         copyroghtView.setText(getResources().getString(R.string.copyright, year));
-
+        showTermsServiceAgreementDialog();
     }
 
     /**
@@ -58,8 +60,12 @@ public class SplashActivity extends BaseLogicActivity {
         TermServiceDialogFragment.show(getSupportFragmentManager(), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                prepareNext();
             }
         });
+    }
+
+    private void prepareNext() {
+        Log.d(TAG, "prepareNext");
     }
 }
