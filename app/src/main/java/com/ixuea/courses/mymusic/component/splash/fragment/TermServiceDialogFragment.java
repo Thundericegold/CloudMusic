@@ -75,6 +75,8 @@ public class TermServiceDialogFragment extends BaseDialogFragment {
     @Override
     protected void initDatum() {
         super.initDatum();
+        //仅作演示
+        //DefaultPreferenceUtil.getInstance(getHostActivity());
 
         Spanned content = Html.fromHtml(getString(R.string.term_service_privacy_content));
 
