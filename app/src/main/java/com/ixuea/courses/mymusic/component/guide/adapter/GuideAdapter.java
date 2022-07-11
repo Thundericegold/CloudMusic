@@ -1,25 +1,24 @@
 package com.ixuea.courses.mymusic.component.guide.adapter;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.ixuea.courses.mymusic.adapter.BaseFragmentStatePagerAdapter;
 import com.ixuea.courses.mymusic.component.guide.fragment.GuideFragment;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class GuideAdapter extends FragmentStatePagerAdapter {
-    private List<Integer> datum = new ArrayList<>();
+public class GuideAdapter extends BaseFragmentStatePagerAdapter<Integer> {
+
 
     /**
-     * 构造方法
-     *
-     * @param fm
+     * @param context 上下文
+     * @param fm      Fragment管理器
      */
-    public GuideAdapter(@NonNull FragmentManager fm) {
-        super(fm);
+    public GuideAdapter(Context context, @NonNull FragmentManager fm) {
+        super(context, fm);
     }
 
     /**
@@ -31,27 +30,8 @@ public class GuideAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Integer data = datum.get(position);
-        return GuideFragment.newInstance(data);
+        return GuideFragment.newInstance(getData(position));
     }
 
-    /**
-     * 有多少个
-     *
-     * @return
-     */
-    @Override
-    public int getCount() {
-        return datum.size();
-    }
 
-    public void setDatum(List<Integer> datum) {
-        if (datum != null && datum.size() > 0) {
-            this.datum.clear();
-            this.datum.addAll(datum);
-
-            //通知数据改变了
-            notifyDataSetChanged();
-        }
-    }
 }
