@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ixuea.courses.mymusic.R;
 import com.ixuea.courses.mymusic.databinding.FragmentDialogTermServiceBinding;
-import com.ixuea.courses.mymusic.fragment.BaseViewModelFragment;
+import com.ixuea.courses.mymusic.fragment.BaseViewModelDialogFragment;
 import com.ixuea.courses.mymusic.superui.process.SuperProcessUtil;
 import com.ixuea.courses.mymusic.util.ScreenUtil;
 import com.ixuea.courses.mymusic.util.SuperTextUtil;
@@ -20,7 +20,7 @@ import com.ixuea.courses.mymusic.util.SuperTextUtil;
 /**
  * 服务条款和隐私协议对话框
  */
-public class TermServiceDialogFragment extends BaseViewModelFragment<FragmentDialogTermServiceBinding> {
+public class TermServiceDialogFragment extends BaseViewModelDialogFragment<FragmentDialogTermServiceBinding> {
 
     private static final String TAG = "TermServiceDialogFragment";
 
