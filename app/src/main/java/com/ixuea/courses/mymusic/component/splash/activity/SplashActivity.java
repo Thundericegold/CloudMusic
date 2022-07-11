@@ -1,17 +1,16 @@
 package com.ixuea.courses.mymusic.component.splash.activity;
 
 import android.Manifest;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.ixuea.courses.mymusic.R;
-import com.ixuea.courses.mymusic.activity.BaseLogicActivity;
+import com.ixuea.courses.mymusic.activity.BaseViewModelActivity;
 import com.ixuea.courses.mymusic.component.splash.fragment.TermServiceDialogFragment;
+import com.ixuea.courses.mymusic.databinding.ActivitySplashBinding;
 import com.ixuea.courses.mymusic.util.DefaultPreferenceUtil;
 import com.ixuea.courses.mymusic.util.SuperDarkUtil;
 import com.ixuea.courses.mymusic.util.SuperDateUtil;
@@ -29,22 +28,13 @@ import permissions.dispatcher.RuntimePermissions;
  */
 //声明当前页面有动态获取权限逻辑
 @RuntimePermissions
-public class SplashActivity extends BaseLogicActivity {
+public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding> {
 
     private static final String TAG = "SplashActivity";
-    private TextView copyroghtView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
-    }
 
     @Override
     protected void initViews() {
         super.initViews();
-        copyroghtView = findViewById(R.id.copyright);
         //设置沉浸式状态栏
         QMUIStatusBarHelper.translucent(this);
 
@@ -63,7 +53,7 @@ public class SplashActivity extends BaseLogicActivity {
         //设置版本年份
         int year = SuperDateUtil.currentYear();
 
-        copyroghtView.setText(getResources().getString(R.string.copyright, year));
+        binding.copyright.setText(getResources().getString(R.string.copyright, year));
 
         if (DefaultPreferenceUtil.getInstance(getHostActivity()).isAcceptTermsServiceAgreement()) {
             //已经同意了用户协议

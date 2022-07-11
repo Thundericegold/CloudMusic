@@ -8,14 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.button.MaterialButton;
 import com.ixuea.courses.mymusic.R;
-import com.ixuea.courses.mymusic.fragment.BaseDialogFragment;
+import com.ixuea.courses.mymusic.databinding.FragmentDialogTermServiceBinding;
+import com.ixuea.courses.mymusic.fragment.BaseViewModelFragment;
 import com.ixuea.courses.mymusic.superui.process.SuperProcessUtil;
 import com.ixuea.courses.mymusic.util.ScreenUtil;
 import com.ixuea.courses.mymusic.util.SuperTextUtil;
@@ -23,12 +21,9 @@ import com.ixuea.courses.mymusic.util.SuperTextUtil;
 /**
  * 服务条款和隐私协议对话框
  */
-public class TermServiceDialogFragment extends BaseDialogFragment {
+public class TermServiceDialogFragment extends BaseViewModelFragment<FragmentDialogTermServiceBinding> {
 
     private static final String TAG = "TermServiceDialogFragment";
-    private TextView contentView;
-    private MaterialButton primaryView;
-    private Button disagreeView;
     private View.OnClickListener onAgreementClickListener;
 
     public static TermServiceDialogFragment newInstance() {
@@ -65,11 +60,8 @@ public class TermServiceDialogFragment extends BaseDialogFragment {
 
         //点击弹窗外边不能关闭
         setCancelable(false);
-        contentView = findViewById(R.id.content);
-        primaryView = findViewById(R.id.primary);
-        disagreeView = findViewById(R.id.disagree);
 
-        SuperTextUtil.setLinkColor(contentView, getActivity().getColor(R.color.link));
+        SuperTextUtil.setLinkColor(binding.content, getActivity().getColor(R.color.link));
     }
 
     @Override
@@ -86,20 +78,20 @@ public class TermServiceDialogFragment extends BaseDialogFragment {
                 Log.d(TAG, "onLinkClick: " + data);
             }
         });
-        contentView.setText(result);
+        binding.content.setText(result);
     }
 
     @Override
     protected void initListeners() {
         super.initListeners();
-        primaryView.setOnClickListener(new View.OnClickListener() {
+        binding.primary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
                 onAgreementClickListener.onClick(v);
             }
         });
-        disagreeView.setOnClickListener(new View.OnClickListener() {
+        binding.disagree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
