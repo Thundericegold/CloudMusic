@@ -2,13 +2,16 @@ plugins {
     id 'com.android.application'
 }
 
+//引入上层目录的common.gradle文件内容
+apply from: '../common.gradle'
+
 android {
-    compileSdk 32
+    //这些配置已经配置到common.gradle文件，所以这里就可以不写了
+    //如果不一样，这里可以在写要用到的配置，以覆盖公共配置文件内容
+//    compileSdk 32
 
     defaultConfig {
         applicationId "com.ixuea.courses.mymusic"
-        minSdk 23
-        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -21,10 +24,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     viewBinding{
         //开启视图绑定，用来替代findViewById
@@ -34,7 +33,6 @@ android {
 }
 
 dependencies {
-
     //官方兼容组件，像AppCompatActivity就是该依赖里面的
     implementation 'androidx.appcompat:appcompat:1.4.1'
     //Material Design组件，像FloatingActiobButton就是该依赖里面的
@@ -50,6 +48,9 @@ dependencies {
     //https://github.com/permissions-dispatcher/PermissionsDispatcher
     implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.8.0"
     annotationProcessor "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.8.0"
+
+    //api:依赖会传递到其他应用本模块的项目
+    implementation project(path: ':super-j')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
