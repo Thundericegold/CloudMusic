@@ -5,7 +5,6 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,6 +23,7 @@ import com.ixuea.courses.mymusic.util.SuperTextUtil;
 public class TermServiceDialogFragment extends BaseViewModelFragment<FragmentDialogTermServiceBinding> {
 
     private static final String TAG = "TermServiceDialogFragment";
+
     private View.OnClickListener onAgreementClickListener;
 
     public static TermServiceDialogFragment newInstance() {
@@ -57,7 +57,6 @@ public class TermServiceDialogFragment extends BaseViewModelFragment<FragmentDia
     @Override
     protected void initViews() {
         super.initViews();
-
         //点击弹窗外边不能关闭
         setCancelable(false);
 
@@ -67,43 +66,35 @@ public class TermServiceDialogFragment extends BaseViewModelFragment<FragmentDia
     @Override
     protected void initDatum() {
         super.initDatum();
-        //仅作演示
-        //DefaultPreferenceUtil.getInstance(getHostActivity());
 
         Spanned content = Html.fromHtml(getString(R.string.term_service_privacy_content));
 
-        SpannableStringBuilder result = SuperTextUtil.setHtmlLinkClick(content, new SuperTextUtil.OnLinkClickListener() {
-            @Override
-            public void onLinkClick(String data) {
-                Log.d(TAG, "onLinkClick: " + data);
-            }
-        });
+        //常规写法
+//        SpannableStringBuilder result = SuperTextUtil.setHtmlLinkClick(content, new SuperTextUtil.OnLinkClickListener() {
+//            @Override
+//            public void onLinkClick(String data) {
+//                Log.d(TAG, "onLinkClick: "+data);
+//            }
+//        });
+
+        //lambda写法，监听器里面只有一个方法才能这样写
+        SpannableStringBuilder result = SuperTextUtil.setHtmlLinkClick(content, data -> Log.d(TAG, "onLinkClick: " + data));
+
         binding.content.setText(result);
     }
 
     @Override
     protected void initListeners() {
         super.initListeners();
-        binding.primary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                onAgreementClickListener.onClick(v);
-            }
+        binding.primary.setOnClickListener(view -> {
+            dismiss();
+            onAgreementClickListener.onClick(view);
         });
-        binding.disagree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                SuperProcessUtil.killApp();
-            }
+
+        binding.disagree.setOnClickListener(view -> {
+            dismiss();
+            SuperProcessUtil.killApp();
         });
-    }
-
-    @Override
-    protected View getLayoutView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_dialog_term_service, container, false);
     }
 
     @Override

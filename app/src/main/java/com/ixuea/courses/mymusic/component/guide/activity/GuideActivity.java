@@ -34,5 +34,6 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
     }
 
     private void setShowGuide() {
+        sp.setShowGuide(false);
     }
 }

@@ -7,10 +7,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import com.ixuea.courses.mymusic.MainActivity;
 import com.ixuea.courses.mymusic.R;
 import com.ixuea.courses.mymusic.activity.BaseViewModelActivity;
 import com.ixuea.courses.mymusic.component.guide.activity.GuideActivity;
 import com.ixuea.courses.mymusic.component.splash.fragment.TermServiceDialogFragment;
+import com.ixuea.courses.mymusic.config.Config;
 import com.ixuea.courses.mymusic.databinding.ActivitySplashBinding;
 import com.ixuea.courses.mymusic.util.DefaultPreferenceUtil;
 import com.ixuea.courses.mymusic.util.SuperDarkUtil;
@@ -79,7 +81,26 @@ public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding>
 
     private void prepareNext() {
         Log.d(TAG, "prepareNext");
-        startActivityAfterFinishThis(GuideActivity.class);
+        binding.copyright.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                postNext();
+            }
+        }, Config.SPLASH_DEFAULT_DELAY_TIME);
+
+    }
+
+    private void postNext() {
+        if (sp.isShowGuide()) {
+            startActivityAfterFinishThis(GuideActivity.class);
+            return;
+        }
+        next();
+    }
+
+    private void next() {
+        Log.d(TAG, "next");
+        startActivityAfterFinishThis(MainActivity.class);
     }
 
 
@@ -116,8 +137,8 @@ public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding>
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_FINE_LOCATION
     })
     void onPermissionGranted() {
         //如果有权限就进入下一步
@@ -132,8 +153,8 @@ public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding>
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_FINE_LOCATION
     })
     void showRequestPermission(PermissionRequest request) {
         new AlertDialog.Builder(getHostActivity())
@@ -149,8 +170,8 @@ public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding>
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_FINE_LOCATION
     })
     void showDenied() {
         //退出应用
@@ -164,8 +185,8 @@ public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding>
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_FINE_LOCATION
     })
     void showNeverAsk() {
         //继续请求权限
