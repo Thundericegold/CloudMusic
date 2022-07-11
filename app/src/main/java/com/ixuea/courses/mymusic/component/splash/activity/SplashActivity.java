@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.ixuea.courses.mymusic.R;
 import com.ixuea.courses.mymusic.activity.BaseViewModelActivity;
+import com.ixuea.courses.mymusic.component.guide.activity.GuideActivity;
 import com.ixuea.courses.mymusic.component.splash.fragment.TermServiceDialogFragment;
 import com.ixuea.courses.mymusic.databinding.ActivitySplashBinding;
 import com.ixuea.courses.mymusic.util.DefaultPreferenceUtil;
@@ -78,7 +79,9 @@ public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding>
 
     private void prepareNext() {
         Log.d(TAG, "prepareNext");
+        startActivityAfterFinishThis(GuideActivity.class);
     }
+
 
     /**
      * 检查是否有需要的权限
