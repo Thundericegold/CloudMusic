@@ -13,8 +13,17 @@ public class BaseCommonActivity extends BaseActivity {
      * @param clazz
      */
     protected void startActivityAfterFinishThis(Class<?> clazz) {
-        Intent intent = new Intent(this, clazz);
-        startActivity(intent);
+        startActivity(clazz);
         finish();
     }
+
+    /**
+     * 启动界面
+     *
+     * @param clazz
+     */
+    protected void startActivity(Class<?> clazz) {
+        startActivity(new Intent(this, clazz));
+    }
+
 }
