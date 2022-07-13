@@ -1,13 +1,11 @@
-package com.ixuea.courses.mymusic.model;
-
-import com.ixuea.courses.mymusic.component.sheet.model.Sheet;
+package com.ixuea.courses.mymusic.model.response;
 
 import java.util.List;
 
 /**
  * 解析列表网络请求
  */
-public class Meta {
+public class Meta<T> {
     /**
      * 有多少条
      */
@@ -33,7 +31,7 @@ public class Meta {
      */
     private Integer next;
 
-    private List<Sheet> data;
+    private List<T> data;
 
     public Integer getTotal() {
         return total;
@@ -75,11 +73,11 @@ public class Meta {
         this.next = next;
     }
 
-    public List<Sheet> getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(List<Sheet> data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 }

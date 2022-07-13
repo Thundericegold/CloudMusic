@@ -13,9 +13,9 @@ import com.ixuea.courses.mymusic.component.api.DefaultService;
 import com.ixuea.courses.mymusic.component.api.NetworkModule;
 import com.ixuea.courses.mymusic.component.guide.adapter.GuideAdapter;
 import com.ixuea.courses.mymusic.component.sheet.model.Sheet;
-import com.ixuea.courses.mymusic.component.sheet.model.SheetWrapper;
 import com.ixuea.courses.mymusic.config.Config;
 import com.ixuea.courses.mymusic.databinding.ActivityGuideBinding;
+import com.ixuea.courses.mymusic.model.response.DetailResponse;
 import com.ixuea.courses.mymusic.util.Constant;
 import com.ixuea.courses.mymusic.util.SuperDarkUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
@@ -124,19 +124,70 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
      * retrofit get请求
      */
     private void testRetrofitGet() {
-        service.sheets(null, 2)
+//        service.sheets(null, 2)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<ListResponse<Sheet>>() {
+//                    @Override
+//                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull ListResponse<Sheet> data) {
+//                        Sheet sheet = data.getData().getData().get(0);
+//                        Log.d(TAG, "onNext: " + sheet.getTitle());
+//                    }
+//
+//                    @Override
+//                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+//                        Log.d(TAG, "onError: " + e.getLocalizedMessage());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+
+//        service.comments()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<ListResponse<Comment>>() {
+//                    @Override
+//                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull ListResponse<Comment> data) {
+//                        Comment comment = data.getData().getData().get(0);
+//                        Log.d(TAG, "onNext: " + comment.getContent());
+//                    }
+//
+//                    @Override
+//                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+//                        Log.d(TAG, "onError: " + e.getLocalizedMessage());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+
+        service.sheetDetail("Bolero", "1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<SheetWrapper>() {
+                .subscribe(new Observer<DetailResponse<Sheet>>() {
                     @Override
                     public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull SheetWrapper s) {
-                        Sheet sheet = s.getData().getData().get(0);
-                        Log.d(TAG, "onNext: " + sheet.getTitle());
+                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull DetailResponse<Sheet> data) {
+                        Log.d(TAG, "onNext: " + data.getData().getTitle());
                     }
 
                     @Override
