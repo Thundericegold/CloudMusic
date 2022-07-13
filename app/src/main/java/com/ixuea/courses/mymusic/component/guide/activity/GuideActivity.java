@@ -9,7 +9,11 @@ import androidx.annotation.NonNull;
 import com.ixuea.courses.mymusic.MainActivity;
 import com.ixuea.courses.mymusic.R;
 import com.ixuea.courses.mymusic.activity.BaseViewModelActivity;
+import com.ixuea.courses.mymusic.component.api.DefaultService;
+import com.ixuea.courses.mymusic.component.api.NetworkModule;
 import com.ixuea.courses.mymusic.component.guide.adapter.GuideAdapter;
+import com.ixuea.courses.mymusic.component.sheet.model.Sheet;
+import com.ixuea.courses.mymusic.component.sheet.model.SheetWrapper;
 import com.ixuea.courses.mymusic.config.Config;
 import com.ixuea.courses.mymusic.databinding.ActivityGuideBinding;
 import com.ixuea.courses.mymusic.util.Constant;
@@ -20,11 +24,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Retrofit;
 
 /**
  * 左右滚动的引导界面
@@ -35,6 +44,7 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
 
     private static final String TAG = "GuideActivity";
     private GuideAdapter adapter;
+    private DefaultService service;
 
     @Override
     protected void initViews() {
@@ -54,6 +64,11 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
     @Override
     protected void initDatum() {
         super.initDatum();
+
+        OkHttpClient okHttpClient = NetworkModule.provideOkHttpClient();
+        Retrofit retrofit = NetworkModule.provideRetrofit(okHttpClient);
+        service = retrofit.create(DefaultService.class);
+
         //创建适配器
         adapter = new GuideAdapter(getHostActivity(), getSupportFragmentManager());
 
@@ -99,11 +114,47 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
 //                startActivityAfterFinishThis(MainActivity.class);
 //                setShowGuide();
 
-                testGet();
+//                testGet();
+                testRetrofitGet();
                 break;
         }
     }
 
+    /**
+     * retrofit get请求
+     */
+    private void testRetrofitGet() {
+        service.sheets(null, 2)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SheetWrapper>() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull SheetWrapper s) {
+                        Sheet sheet = s.getData().getData().get(0);
+                        Log.d(TAG, "onNext: " + sheet.getTitle());
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        Log.d(TAG, "onError: " + e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+
+    /**
+     * okhttp get请求
+     */
     private void testGet() {
         OkHttpClient client = new OkHttpClient();
         String url = Config.ENDPOINT + "v1/sheets";

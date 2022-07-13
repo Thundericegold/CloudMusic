@@ -10,11 +10,10 @@ import com.tencent.mmkv.MMKV;
  */
 public class AppContext extends Application {
     private static final String TAG = "AppContext";
+    private static AppContext instance;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        initMMKV();
+    public static AppContext getInstance() {
+        return instance;
     }
 
     /**
@@ -23,5 +22,12 @@ public class AppContext extends Application {
     private void initMMKV() {
         String rootDir = MMKV.initialize(this);
         Log.d(TAG, "initMMKV: " + rootDir);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        initMMKV();
     }
 }
