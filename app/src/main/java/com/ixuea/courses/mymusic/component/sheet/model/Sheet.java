@@ -1,9 +1,11 @@
 package com.ixuea.courses.mymusic.component.sheet.model;
 
+import com.ixuea.courses.mymusic.model.Common;
+
 /**
  * 歌单模型
  */
-public class Sheet {
+public class Sheet extends Common {
     /**
      * 歌单标题
      */
@@ -39,17 +41,6 @@ public class Sheet {
      */
     private int songsCount;
 
-    private String id;
-
-    /**
-     * 创建时间
-     */
-    private String createdAt;
-
-    /**
-     * 更新时间
-     */
-    private String updatedAt;
 
     public String getTitle() {
         return title;
@@ -107,27 +98,5 @@ public class Sheet {
         this.songsCount = songsCount;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }
