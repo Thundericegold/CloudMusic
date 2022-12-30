@@ -1,10 +1,16 @@
 package com.ixuea.courses.mymusic.component.api;
 
+import com.ixuea.courses.mymusic.activity.BaseLogicActivity;
 import com.ixuea.courses.mymusic.component.observer.ObserverAdapter;
+import com.ixuea.courses.mymusic.fragment.BaseLogicFragment;
 import com.ixuea.courses.mymusic.model.response.BaseResponse;
-import com.ixuea.courses.mymusic.util.HttpUtil;
+import com.ixuea.courses.mymusic.superui.util.SuperViewUtil;
+import com.ixuea.courses.mymusic.util.ExceptionHandlerUtil;
+import com.ixuea.courses.mymusic.view.PlaceholderView;
 
-import okhttp3.Response;
+import io.reactivex.rxjava3.disposables.Disposable;
+import retrofit2.Response;
+
 
 /**
  * 网络请求Observer
@@ -12,6 +18,37 @@ import okhttp3.Response;
  * @param <T>
  */
 public abstract class HttpObserver<T> extends ObserverAdapter<T> {
+    private BaseLogicFragment fragment;
+    private BaseLogicActivity activity;
+    private boolean isShowLoading;
+
+    public HttpObserver() {
+        super();
+    }
+
+    public HttpObserver(BaseLogicActivity activity) {
+        super();
+        this.activity = activity;
+    }
+
+    public HttpObserver(BaseLogicFragment fragment) {
+        super();
+        this.fragment = fragment;
+    }
+
+    public HttpObserver(BaseLogicActivity activity, boolean isShowLoading) {
+        super();
+        this.activity = activity;
+        this.isShowLoading = isShowLoading;
+    }
+
+    public HttpObserver(BaseLogicFragment fragment, boolean isShowLoading) {
+        super();
+        this.fragment = fragment;
+        this.activity = (BaseLogicActivity) fragment.getActivity();
+        this.isShowLoading = isShowLoading;
+    }
+
     /**
      * 请求成功
      *
@@ -27,6 +64,7 @@ public abstract class HttpObserver<T> extends ObserverAdapter<T> {
      * @return true:自己处理;false:框架处理
      */
     public boolean onFailed(T data, Throwable e) {
+
         return false;
     }
 
@@ -68,15 +106,44 @@ public abstract class HttpObserver<T> extends ObserverAdapter<T> {
             //返回true就表示外部手动处理错误
             //那我们框架内部就不用做任何事情了
         } else {
-            HttpUtil.handlerRequest(data, error);
+            ExceptionHandlerUtil.handlerRequest(data, error, getPlaceholderView());
         }
+    }
+
+    protected PlaceholderView getPlaceholderView() {
+        if (activity != null) {
+            return activity.getPlaceholderView();
+        } else if (fragment != null) {
+            return fragment.getPlaceholderView();
+        }
+        return null;
     }
 
     /**
      * 请求结束，成功失败都会调用(调用前调用)，使用在这里隐藏加载提示
      */
     public void onEnd() {
+        if (isShowLoading) {
+            activity.hideLoading();
+        }
 
+        if (getPlaceholderView() != null) {
+            SuperViewUtil.gone(getPlaceholderView());
+        }
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+        super.onSubscribe(d);
+
+        if (isShowLoading) {
+            //显示加载对话框
+            activity.showLoading();
+        }
+
+        if (getPlaceholderView() != null) {
+            SuperViewUtil.gone(getPlaceholderView());
+        }
     }
 
     private boolean isSucceeded(T t) {

@@ -3,6 +3,7 @@ package com.ixuea.courses.mymusic;
 import android.app.Application;
 import android.util.Log;
 
+import com.ixuea.courses.mymusic.superui.toast.SuperToast;
 import com.tencent.mmkv.MMKV;
 
 /**
@@ -29,5 +30,11 @@ public class AppContext extends Application {
         super.onCreate();
         instance = this;
         initMMKV();
+
+        //初始化toast工具类
+        SuperToast.init(getApplicationContext());
+    }
+
+    public void logout() {
     }
 }

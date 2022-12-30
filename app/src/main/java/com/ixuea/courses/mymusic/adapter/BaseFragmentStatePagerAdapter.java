@@ -2,12 +2,13 @@ package com.ixuea.courses.mymusic.adapter;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.annotations.NonNull;
 
 /**
  * 通用FragmentPagerAdapter

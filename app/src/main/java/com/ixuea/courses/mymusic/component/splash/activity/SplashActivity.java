@@ -43,7 +43,7 @@ public class SplashActivity extends BaseViewModelActivity<ActivitySplashBinding>
 
         if (SuperDarkUtil.isDark(this)) {
             //状态栏文字白色
-            QMUIStatusBarHelper.setStatusBarLightMode(this);
+            QMUIStatusBarHelper.setStatusBarDarkMode(this);
         } else {
             //状态栏文字黑色
             QMUIStatusBarHelper.setStatusBarLightMode(this);

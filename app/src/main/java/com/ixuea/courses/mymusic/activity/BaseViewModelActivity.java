@@ -2,10 +2,11 @@ package com.ixuea.courses.mymusic.activity;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
 import com.ixuea.courses.mymusic.superui.reflect.ReflectUtil;
+
+import io.reactivex.rxjava3.annotations.Nullable;
 
 /**
  * 通用ViewModel Activity

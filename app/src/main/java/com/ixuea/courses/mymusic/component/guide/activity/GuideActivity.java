@@ -10,7 +10,6 @@ import com.ixuea.courses.mymusic.MainActivity;
 import com.ixuea.courses.mymusic.R;
 import com.ixuea.courses.mymusic.activity.BaseViewModelActivity;
 import com.ixuea.courses.mymusic.component.api.DefaultService;
-import com.ixuea.courses.mymusic.component.api.NetworkModule;
 import com.ixuea.courses.mymusic.component.guide.adapter.GuideAdapter;
 import com.ixuea.courses.mymusic.config.Config;
 import com.ixuea.courses.mymusic.databinding.ActivityGuideBinding;
@@ -22,14 +21,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import retrofit2.Retrofit;
 
 /**
  * 左右滚动的引导界面
@@ -50,7 +46,7 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
 
         if (SuperDarkUtil.isDark(this)) {
             //状态栏文字白色
-            QMUIStatusBarHelper.setStatusBarLightMode(this);
+            QMUIStatusBarHelper.setStatusBarDarkMode(this);
         } else {
             //状态栏文字黑色
             QMUIStatusBarHelper.setStatusBarLightMode(this);
@@ -61,9 +57,9 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
     protected void initDatum() {
         super.initDatum();
 
-        OkHttpClient okHttpClient = NetworkModule.provideOkHttpClient();
-        Retrofit retrofit = NetworkModule.provideRetrofit(okHttpClient);
-        service = retrofit.create(DefaultService.class);
+//        OkHttpClient okHttpClient = NetworkModule.provideOkHttpClient();
+//        Retrofit retrofit = NetworkModule.provideRetrofit(okHttpClient);
+//        service = retrofit.create(DefaultService.class);
 
         //创建适配器
         adapter = new GuideAdapter(getHostActivity(), getSupportFragmentManager());
@@ -107,11 +103,11 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
                 finish();
                 break;
             case R.id.experience_now:
-//                startActivityAfterFinishThis(MainActivity.class);
-//                setShowGuide();
+                startActivityAfterFinishThis(MainActivity.class);
+                setShowGuide();
 
 //                testGet();
-                testRetrofitGet();
+//                testRetrofitGet();
                 break;
         }
     }
@@ -196,10 +192,41 @@ public class GuideActivity extends BaseViewModelActivity<ActivityGuideBinding> i
 //
 //                    }
 //                });
-        service.sheetDetail("Bolero", "1")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+//        service.sheetDetail("Bolero", "1")
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe();
+//        SuperToast.error(R.string.about);
+
+//        SuperRoundLoadingDialogFragment dialogFragment = SuperRoundLoadingDialogFragment.newInstance("拼命加载中");
+//        dialogFragment.show(getSupportFragmentManager(),"SuperRoundLoadingDialogFragment");
+
+//        showLoading("拼命加载中");
+//
+//        binding.indicator.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                hideLoading();
+//            }
+//        },3000);
+
+//        service.sheetDetail("ixuea","998888")
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new HttpObserver<DetailResponse<Sheet>>(getHostActivity(),true) {
+//                    @Override
+//                    public void onSucceeded(DetailResponse<Sheet> data) {
+//                        Log.d(TAG, "onSucceeded: "+data.getData().getTitle());
+//                    }
+//
+//                    @Override
+//                    public boolean onFailed(DetailResponse<Sheet> data, Throwable e) {
+//                        if (e != null){
+//                            Log.e(TAG, "onFailed: "+e.getLocalizedMessage());
+//                        }
+//                        return false;
+//                    }
+//                });
     }
 
 
